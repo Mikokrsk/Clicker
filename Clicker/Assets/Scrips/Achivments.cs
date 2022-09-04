@@ -5,10 +5,19 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class Achivments : MonoBehaviour
 {
+    public string[] arrayTitles;
+    public Sprite[] arraySprites;
+    public GameObject button;
+    public GameObject content;
+
+    private List<GameObject> list = new List<GameObject>();
+    private VerticalLayoutGroup _group;
+
+
     public int money;
     public int total_money;
     public Text money_score;
-    public bool get_10_money = false;
+  /*  public bool get_10_money = false;
     public bool get_100_money = false;
     public bool get_1000_money = false;
     //  private Color colors_button;
@@ -18,13 +27,19 @@ public class Achivments : MonoBehaviour
     public Button button_get_10_click_x1;
   //  private int achivments = 0;
     // Start is called before the first frame update
-    void Start()
+ */
+   public void Start()
     {
         money = PlayerPrefs.GetInt("money");
        total_money = PlayerPrefs.GetInt("total_money");
-        get_10_money = PlayerPrefs.GetInt("get_10_money") == 1 ? true : false;
-        get_100_money = PlayerPrefs.GetInt("get_100_money") == 1 ? true : false;
-        get_1000_money = PlayerPrefs.GetInt("get_1000_money") == 1 ? true : false;
+        /* get_10_money = PlayerPrefs.GetInt("get_10_money") == 1 ? true : false;
+         get_100_money = PlayerPrefs.GetInt("get_100_money") == 1 ? true : false;
+         get_1000_money = PlayerPrefs.GetInt("get_1000_money") == 1 ? true : false;
+         */
+        RectTransform recT = content.GetComponent<RectTransform>();
+        recT.transform.localPosition = new Vector3(0.0f,0.0f,0.0f) ;
+        _group = GetComponent<VerticalLayoutGroup>();
+        setAchievs();
         StartCoroutine(IdleFarm());
     }
     public void ToHome()
@@ -39,9 +54,59 @@ public class Achivments : MonoBehaviour
         PlayerPrefs.SetInt("money", money);
         PlayerPrefs.SetInt("total_money", total_money);
     }
-    // Update is called once per frame
-    void Update()
+    private void RemovedList()
     {
+        foreach(var elem in list)
+        {
+            Destroy(elem);
+        }
+        list.Clear();
+    }
+   private void setAchievs()
+    {
+        RectTransform recT = content.GetComponent<RectTransform>();
+        recT.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        if(arrayTitles.Length > 0)
+        {
+            var pr1 = Instantiate(button, transform);
+            var h = pr1.GetComponent<RectTransform>().rect.height;
+            var tr = GetComponent<RectTransform>();
+            tr.sizeDelta = new Vector2(tr.rect.width, h * arrayTitles.Length);
+            Destroy(pr1);
+            for(var i = 0; i<arrayTitles.Length;i++)
+            {
+                var pr = Instantiate(button, transform);
+                pr.GetComponentInChildren<Text>().text = arrayTitles[i];
+                pr.GetComponentsInChildren<Image>()[1].sprite = arraySprites[i];
+                var i1 = i;
+                pr.GetComponent<Button>().onClick.AddListener(() => GetAhievement(i1));
+                list.Add(pr);
+            }
+
+        }
+
+    }
+    void GetAhievement(int id)
+    {
+        switch (id)
+        {
+            case 0:
+                Debug.Log(id);
+                break;
+            case 1:
+                Debug.Log(id);
+                money += 10;
+                total_money += 10;
+                PlayerPrefs.SetInt("money", money);
+                PlayerPrefs.SetInt("total_money", total_money);
+                break;
+        }    
+    }
+
+    // Update is called once per frame
+   public void Update()
+    {
+        /*
         if (total_money >= 10 && get_10_money == false)
         {
             button_get_10_money.interactable = true;
@@ -62,6 +127,7 @@ public class Achivments : MonoBehaviour
             get_1000_money = true;
             PlayerPrefs.SetInt("get_1000_money", get_1000_money ? 1 : 0);
         }
+        */
 
         money_score.text = money.ToString();
     }
