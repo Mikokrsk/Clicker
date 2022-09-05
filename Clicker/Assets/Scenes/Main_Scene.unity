@@ -482,7 +482,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4751fe8510340e348915e91c3dfd84f9, type: 3}
@@ -1000,6 +1000,9 @@ MonoBehaviour:
   total_money_score: {fileID: 1665729603}
   click_x1: 1
   total_money: 0
+  get_10_money: 0
+  get_100_money: 0
+  get_1000_money: 0
 --- !u!114 &1278092414
 MonoBehaviour:
   m_ObjectHideFlags: 0

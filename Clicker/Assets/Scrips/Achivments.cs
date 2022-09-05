@@ -7,8 +7,10 @@ public class Achivments : MonoBehaviour
 {
     public string[] arrayTitles;
     public Sprite[] arraySprites;
+    public int[] money_to_achivment; 
     public GameObject button;
     public GameObject content;
+  
 
     private List<GameObject> list = new List<GameObject>();
     private VerticalLayoutGroup _group;
@@ -40,13 +42,15 @@ public class Achivments : MonoBehaviour
         recT.transform.localPosition = new Vector3(0.0f,0.0f,0.0f) ;
         _group = GetComponent<VerticalLayoutGroup>();
         setAchievs();
-        StartCoroutine(IdleFarm());
+     //   StartCoroutine(IdleFarm());
     }
     public void ToHome()
     {
         PlayerPrefs.SetInt("money", money);
+        PlayerPrefs.SetInt("total_money", total_money);
         SceneManager.LoadScene(0);
     }
+
     public void Achivment_money(int money_to_achivment)
     {
         money += money_to_achivment;
@@ -54,6 +58,7 @@ public class Achivments : MonoBehaviour
         PlayerPrefs.SetInt("money", money);
         PlayerPrefs.SetInt("total_money", total_money);
     }
+    /*
     private void RemovedList()
     {
         foreach(var elem in list)
@@ -62,6 +67,7 @@ public class Achivments : MonoBehaviour
         }
         list.Clear();
     }
+    */
    private void setAchievs()
     {
         RectTransform recT = content.GetComponent<RectTransform>();
@@ -92,13 +98,16 @@ public class Achivments : MonoBehaviour
         {
             case 0:
                 Debug.Log(id);
+                Achivment_money(money_to_achivment[id]);
                 break;
-            case 1:
+            case >1:
                 Debug.Log(id);
-                money += 10;
-                total_money += 10;
-                PlayerPrefs.SetInt("money", money);
-                PlayerPrefs.SetInt("total_money", total_money);
+                Achivment_money(money_to_achivment[id]);
+                Debug.Log(money_to_achivment[id]);
+                //  money += 10;
+                //   total_money += 10;
+                //   PlayerPrefs.SetInt("money", money);
+                //   PlayerPrefs.SetInt("total_money", total_money);
                 break;
         }    
     }
@@ -131,6 +140,7 @@ public class Achivments : MonoBehaviour
 
         money_score.text = money.ToString();
     }
+    /*
     IEnumerator IdleFarm()
     {
         yield return new WaitForSeconds(1);
@@ -140,4 +150,5 @@ public class Achivments : MonoBehaviour
         PlayerPrefs.SetInt("total_money", total_money);
         StartCoroutine(IdleFarm());
     }
+    */
 }
